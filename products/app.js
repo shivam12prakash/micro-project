@@ -3,9 +3,9 @@ const dotenv = require('dotenv')
 dotenv.config()
 const mongoose = require('mongoose')
 const cors = require('cors')
-const Content = require('../contents/model/content')
+const Product = require('./model/product')
 
-const port = process.env.PORT || 8001
+const port = process.env.PORT || 8000
 
 const app = express()
 app.use(express.json())
@@ -13,17 +13,17 @@ app.use(cors())
 
 mongoose.connect(process.env.DB_URL)
 
-app.post('/addContents', async (req, res) => {
-  const content = new Content(req.body)
+app.post('/addProducts', async (req, res) => {
+  const product = new Product(req.body)
 
-  await content.save()
-  res.status(201).send('Content Added')
+  await product.save()
+  res.status(201).send('Product Added')
 })
 
-app.get('/getContents', async (req, res) => {
-  await Content.find({})
-    .then((content) => {
-      res.status(200).send(content)
+app.get('/getProducts', async (req, res) => {
+  await Product.find({})
+    .then((product) => {
+      res.status(200).send(product)
     })
     .catch((error) => {
       res.status(400).send(error)
